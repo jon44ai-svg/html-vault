@@ -97,3 +97,7 @@ Newest entries at the **bottom**. Format:
 - T1 left: manual smoke + legacy delete ask
 - T3 not started until T1 closed
 
+
+## 2026-10-31T00:26+02:00 — shell-log MCP on official SDK
+- Replaced hand-rolled stdio with `mcp` 2.x `MCPServer` via uv
+- Smoke: log_run/search OK; reload Cursor MCP to pick up server

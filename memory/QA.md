@@ -106,3 +106,27 @@ Add new entries at the bottom. Do not edit prior answers; if something changes, 
 
 **Q18** → **A**: **shared understanding frozen** (summary in prior agent message).
 
+
+### 2026-10-31T00:08+02:00 — Smoke + branch workflow
+
+**Q (user):** Smoke passed; continue. For the future, don’t wait for manual smoke — work on a different branch.
+
+**A (agent):** Recorded in `.cursorrules`. T1 smoke marked passed; continue T3 on branch `feat/t3-pwa-vercel` (PWA + Vercel first). Legacy delete still needs explicit user OK.
+
+---
+
+### 2026-10-31T00:12+02:00 — Log-then-grep
+
+**Q (user):** Instead of grepping command output, put it in a log file and grep that so output isn’t discarded.
+
+**A (agent):** Added to `.cursorrules` workflow.
+
+---
+
+### 2026-10-31T00:26+02:00 — shell-log MCP via uv
+
+**Q (user):** Switch shell-log MCP to official `mcp` via uv (not stdlib-only).
+
+**A (agent):** `mcp/shell-log` is a uv project with `mcp>=2.3.0` (`MCPServer`); `.mcp.json` launches via `uv run`. Tools unchanged: `log_run` / `log_search` / `log_tail` / `log_list`.
+
+---
