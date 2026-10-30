@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "codegraph": {
+      "type": "stdio",
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp"
+      ],
+      "alwaysLoad": true
+    },
+    "shell-log": {
+      "type": "stdio",
+      "command": "/home/jon/code/withcursor/html-vault/mcp/shell-log/run.sh",
+      "env": {
+        "SHELL_LOG_ROOT": "/home/jon/code/withcursor/html-vault"
+      },
+      "alwaysLoad": true
+    }
+  }
+}
