@@ -89,3 +89,11 @@ Newest entries at the **bottom**. Format:
 - Extra rule: `.txt` Imports → content-sniff Kind; ambiguous → explain + manual choice.
 - Next action: finish T1 remaining feat commits + docs from uncommitted full `src/main.js`.
 
+
+## 2026-10-31T00:05+02:00 — T1 port + docs committed; grill frozen
+
+- Shared understanding frozen (Q16=A caps, Q17=B TSX-as-JSX, `.txt` content-sniff, Q18=A)
+- `336ee26` full Vault behavior port; `ef7f853` README/CONTEXT/memory
+- T1 left: manual smoke + legacy delete ask
+- T3 not started until T1 closed
+

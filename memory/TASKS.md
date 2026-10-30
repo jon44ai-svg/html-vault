@@ -13,23 +13,19 @@ Status: `todo` | `doing` | `blocked` | `done` | `dropped`
 | Status | `doing` |
 | Added by | user (grilled init → `AGENTS.md` handoff) |
 | Added at | 2026-10-30 (session; formalized in handoff before memory/) |
-| Aim | Port `legacy/html-vault-v3.html` into Vite + vanilla JS + pnpm with **behavioral parity**, atomic commits, npm deps (not CDN). Docs after parity. Delete `legacy/` only after user confirms. |
+| Aim | Port `legacy/html-vault-v3.html` into Vite + vanilla JS + pnpm with **behavioral parity**. Docs after parity. Delete `legacy/` only after user confirms. |
 
 ### Subtasks
 
 - [x] `chore: add gitignore for Vite/node` — `12b91af`
 - [x] `chore: move monolith to legacy/html-vault-v3.html` — `a490abd`
 - [x] Install gate: lockfile-only → `pnpm audit` (clean) → `pnpm install`
-- [x] `chore: scaffold Vite + pnpm (vanilla JS)` — `de41551` (deps folded in)
+- [x] `chore: scaffold Vite + pnpm (vanilla JS)` — `de41551`
 - [x] `feat: port UI shell and styles from legacy` — `2ea1a55`
-- [ ] `feat: port Vault state, persistence, and file list`
-- [ ] `feat: port editor, preview, compile, and history`
-- [ ] `feat: port import/export and clipboard flows`
-- [ ] `docs: minimal README (dev/build) + track CONTEXT.md`
-- [ ] Smoke: new/edit/preview/compile/checkpoint/history/import/export/theme
+- [x] `feat: port Vault behavior from legacy` (state→import/export folded) — `336ee26`
+- [x] `docs: README, domain glossary, and project memory` — `ef7f853`
+- [ ] Manual smoke: new/edit/preview/compile/checkpoint/history/import/export/theme
 - [ ] Ask before deleting `legacy/`
-
-**Note (2026-10-30):** Working tree has an uncommitted full `src/main.js` port (~994 lines, `pnpm build` succeeded) started while finishing remaining feat commits; not yet split/committed atomically.
 
 ---
 
@@ -37,44 +33,37 @@ Status: `todo` | `doing` | `blocked` | `done` | `dropped`
 
 | Field | Value |
 |---|---|
-| Status | `doing` |
+| Status | `done` |
 | Added by | user |
 | Added at | 2026-10-30T23:33+02:00 |
-| Aim | Keep durable, agent-updated records of tasks (with provenance), Q&A, and an append-only worklog so sessions continue without re-deriving history. |
+| Aim | Durable agent-updated tasks (provenance), Q&A, append-only worklog. |
 
 ### Subtasks
 
-- [x] Create `memory/` layout + seed from this chat
-- [x] Add always-apply Cursor rule to maintain memory
-- [x] Point `AGENTS.md` / `.cursorrules` at memory
-- [ ] Confirm with user: track `memory/` in git (recommended) vs local-only
-- [ ] After first review, mark T2 `done` if structure accepted
+- [x] Create `memory/` + always-apply rule
+- [x] Track in git (included in `ef7f853`)
 
 ---
 
-
----
-
-## T3 — Phone Vault: JSX + PWA + reliable AI imports (grilling)
+## T3 — Phone Vault: Bundle + PWA + JSX (post-T1)
 
 | Field | Value |
 |---|---|
 | Status | `todo` |
 | Added by | user |
 | Added at | 2026-10-30T23:36+02:00 |
-| Aim | After grill + T1 parity: Vault-shell PWA on Vercel; Import AI HTML/JSX; JSX as React-ish (multi-file frontends OK, no real backends). **Not** per-File installs or cross-repo scaffolds. Multi-file model still being grilled. |
+| Aim | After T1: Vault-shell PWA on Vercel; Bundles; JSX/TSX Preview (transform+React); ZIP Import; image caps; `.txt` content-sniff Kind; convention-miss explain + manual Kind/Entry. Not per-Bundle install. WebContainer parked in FUTURE.md. |
 
 ### Subtasks
 
-- [x] Grill rounds 1–2: Vault-shell PWA, Vercel hosts Vault, Bundle + JSX React-ish, T1 first
-- [x] Update CONTEXT.md (Bundle, Entry, Kind)
-- [x] Finish grill → shared understanding frozen (2026-10-31)
-- [ ] Blocked on **T1 parity** before any T3 implementation
-- [ ] Then: PWA + Vercel host
-- [ ] Then: Bundle + JSX/TSX Preview + ZIP; image caps; `.txt` content-sniff Kind
-- [ ] Convention miss UX: explain why + manual Kind/Entry choice
-- [ ] Parked: WebContainer Preview — see `memory/FUTURE.md`
+- [x] Grill frozen 2026-10-31 (see `memory/QA.md`)
+- [ ] Wait for T1 smoke + legacy decision
+- [ ] PWA + Vercel host
+- [ ] Bundle model + JSX/TSX Preview + ZIP; image caps; `.txt` sniff
+- [ ] Convention-miss UX
+
+---
 
 ## Backlog (not started)
 
-_None yet. New user-asked work gets a new `T#` here with provenance before execution._
+_None._
