@@ -101,3 +101,10 @@ Newest entries at the **bottom**. Format:
 ## 2026-10-31T00:26+02:00 — shell-log MCP on official SDK
 - Replaced hand-rolled stdio with `mcp` 2.x `MCPServer` via uv
 - Smoke: log_run/search OK; reload Cursor MCP to pick up server
+
+## 2026-10-31T00:29+02:00 — Commits + PWA build green
+
+- Branch `feat/t3-pwa-vercel`: patch, PWA, MCP, docs commits; then workbox-window fix
+- `pnpm build` OK: dist/sw.js + manifest.webmanifest
+- Next: Vercel deploy/link; then Bundle/JSX. Still need user OK to delete legacy/
+
