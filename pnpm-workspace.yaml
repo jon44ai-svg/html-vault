@@ -1,2 +1,9 @@
 allowBuilds:
   esbuild: true
+patchedDependencies:
+  deepmerge@4.3.1: patches/deepmerge@4.3.1.patch
+# Audit DB matches version range only; our patch remediates GHSA-gcqx-w48m-w2h4
+# (no npm release >=4.3.2 exists). Remove ignore when upstream publishes a fix.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-gcqx-w48m-w2h4
