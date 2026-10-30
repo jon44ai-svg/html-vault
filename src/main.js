@@ -1,6 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import 'bootstrap'
 import './style.css'
-
-document.querySelector('#app').innerHTML = `
-  <h1>HTML Vault</h1>
-  <p>Vite scaffold ready.</p>
-`

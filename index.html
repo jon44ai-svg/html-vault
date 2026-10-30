@@ -1,12 +1,177 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HTML Vault</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<html lang="en" data-bs-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d6efd">
+  <title>HTML Vault — Manage HTML files</title>
+</head>
+<body>
+<header class="app-header">
+  <div class="brand"><i class="bi bi-file-earmark-code"></i> HTML Vault <span class="badge text-bg-light">Offline</span></div>
+  <div class="header-actions">
+    <button class="btn btn-light btn-sm d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#fileCanvas" title="Files" aria-label="Files">
+      <i class="bi bi-list"></i>
+    </button>
+    <button id="btnNew" class="btn btn-light btn-sm" title="New file"><i class="bi bi-file-earmark-plus"></i><span class="d-none d-sm-inline"> New</span></button>
+    <button id="btnImport" class="btn btn-light btn-sm" title="Import files or ZIP"><i class="bi bi-folder2-open"></i><span class="d-none d-sm-inline"> Import</span></button>
+    <button id="btnPaste" class="btn btn-light btn-sm" title="Create from clipboard"><i class="bi bi-clipboard-plus"></i><span class="d-none d-sm-inline"> Paste</span></button>
+    <div class="dropdown">
+      <button class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown" title="Export and settings">
+        <i class="bi bi-download"></i><span class="d-none d-sm-inline"> Menu</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end shadow">
+        <li><a class="dropdown-item" href="#" id="dlCurrent">Download current file</a></li>
+        <li><a class="dropdown-item" href="#" id="dlZip">Export all files and history (.zip)</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#" id="toggleTheme">Toggle dark mode</a></li>
+        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About / Help</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="fileCanvas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title"><i class="bi bi-folder2"></i> Files</h5>
+    <button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+    <div class="input-group mb-2">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input id="searchMobile" class="form-control" placeholder="Filter files" autocomplete="off">
+    </div>
+    <div id="fileListCanvas" class="file-list"></div>
+  </div>
+</div>
+
+<input id="importInput" type="file" accept=".html,.htm,.xhtml,.txt,.zip,text/html,text/plain,application/zip" multiple hidden>
+
+<main class="app-main show-edit">
+  <aside class="sidebar">
+    <div class="input-group mb-2">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input id="searchDesktop" class="form-control" placeholder="Filter files" autocomplete="off">
+    </div>
+    <button id="btnNew2" class="btn btn-primary w-100 mb-2"><i class="bi bi-file-earmark-plus"></i> New file</button>
+    <div id="fileListDesktop" class="file-list"></div>
+  </aside>
+
+  <section class="editor-pane">
+    <div class="pane-toolbar">
+      <div class="btn-group mobile-tabs" role="group" aria-label="View">
+        <button class="btn btn-sm btn-primary" id="tabEdit"><i class="bi bi-pencil-square"></i> Edit</button>
+        <button class="btn btn-sm btn-outline-primary" id="tabPreview"><i class="bi bi-eye"></i> Preview</button>
+      </div>
+      <span class="file-title" id="fileTitle">No file selected</span>
+      <div class="ms-auto d-flex gap-1 flex-wrap">
+        <button class="btn btn-sm btn-outline-secondary" id="btnHistory" title="Version history" aria-label="Version history"><i class="bi bi-clock-history"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" id="btnFormat" title="Format HTML" aria-label="Format HTML"><i class="bi bi-magic"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" id="btnCopy" title="Copy source" aria-label="Copy source"><i class="bi bi-clipboard"></i></button>
+        <div class="btn-group" role="group" aria-label="Insert from clipboard">
+          <button class="btn btn-sm btn-outline-secondary" id="btnInsertClip" title="Insert clipboard at cursor (Ctrl/⌘+Shift+V)" aria-label="Insert clipboard at cursor">
+            <i class="bi bi-clipboard-plus"></i> <span class="d-none d-lg-inline">Insert</span>
+          </button>
+          <button class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" id="insertToggle" data-bs-toggle="dropdown" aria-label="Insert options" title="Insert options"></button>
+          <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li><a class="dropdown-item" href="#" id="insCursor"><i class="bi bi-cursor-text"></i> Insert at cursor</a></li>
+            <li><a class="dropdown-item" href="#" id="insAppend"><i class="bi bi-arrow-down-circle"></i> Append to end</a></li>
+            <li><a class="dropdown-item" href="#" id="insReplace"><i class="bi bi-file-earmark-minus"></i> Replace selection</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#" id="insMulti"><i class="bi bi-files"></i> Split multiple HTML files…</a></li>
+          </ul>
+        </div>
+        <button class="btn btn-sm btn-warning" id="btnCompile"><i class="bi bi-gear"></i> Compile</button>
+        <button class="btn btn-sm btn-success" id="btnCommit" title="Save checkpoint"><i class="bi bi-bookmark-check"></i> Checkpoint</button>
+      </div>
+    </div>
+    <div class="editor-wrap">
+      <textarea id="editor" placeholder="Select or create a file…" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" wrap="off"></textarea>
+    </div>
+    <div id="resultBox" class="result-box d-none">
+      <div class="result-head">
+        <span><i class="bi bi-terminal"></i> Validation results</span>
+        <button class="btn-close" id="closeResults" aria-label="Close"></button>
+      </div>
+      <ul id="resultList" class="result-list"></ul>
+    </div>
+  </section>
+
+  <section class="preview-pane">
+    <div class="pane-toolbar">
+      <span><i class="bi bi-eye"></i> Preview / Console</span>
+      <div class="ms-auto d-flex gap-1">
+        <button class="btn btn-sm btn-outline-secondary" id="btnRefreshPreview" title="Reload preview" aria-label="Reload preview"><i class="bi bi-arrow-clockwise"></i></button>
+        <button class="btn btn-sm btn-outline-secondary" id="btnCopyLogs" title="Copy console and error logs"><i class="bi bi-clipboard"></i> <span class="d-none d-sm-inline">Copy logs</span></button>
+        <button class="btn btn-sm btn-outline-secondary" id="btnClearConsole" title="Clear console" aria-label="Clear console"><i class="bi bi-eraser"></i></button>
+      </div>
+    </div>
+    <iframe id="previewFrame" sandbox="allow-scripts allow-modals allow-forms allow-popups" title="HTML preview"></iframe>
+    <div class="console-box"><ul id="consoleList" class="console-list"></ul></div>
+  </section>
+</main>
+
+<div class="modal fade" id="renameModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Rename file</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body"><input id="renameInput" class="form-control" placeholder="file.html" autocomplete="off"></div>
+    <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" id="renameOk">Save</button></div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="pasteModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Create file from pasted source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <textarea id="pasteArea" class="form-control" rows="8" placeholder="Paste HTML source here…" style="font-family:monospace"></textarea>
+      <input id="pasteName" class="form-control mt-2" value="clipboard.html" placeholder="File name">
+    </div>
+    <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" id="pasteOk">Create file</button></div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="historyModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Version history</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body"><div id="historyList"></div></div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="versionModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">Version source</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body"><pre class="m-0"><code id="versionCode"></code></pre></div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title" id="confirmTitle">Confirm</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body" id="confirmMsg"></div>
+    <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-danger" id="confirmYes">Confirm</button></div>
+  </div></div>
+</div>
+
+<div class="modal fade" id="aboutModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title">About HTML Vault</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <p>HTML Vault stores files in this browser’s local storage. Data stays on this device unless you export or share it.</p>
+      <ul>
+        <li>Import HTML/text files or a ZIP archive. Export one file or a ZIP backup with version history.</li>
+        <li>Changes auto-save. Use Checkpoint to make a labeled history snapshot.</li>
+        <li>Compile checks common HTML issues and runs the source in a sandboxed preview.</li>
+        <li>Use Copy logs to copy preview console messages and errors for debugging.</li>
+        <li>Use the Insert ▼ button (or Ctrl/⌘+Shift+V in the editor) to insert clipboard content at the cursor, append it to the end, replace the selection, or split multiple HTML documents from the clipboard into separate files.</li>
+        <li>Browser storage has limited capacity. Export backups regularly.</li>
+      </ul>
+    </div>
+    <div class="modal-footer"><button class="btn btn-primary" data-bs-dismiss="modal">Done</button></div>
+  </div></div>
+</div>
+
+<div id="toastHost" class="toast-host"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
 </html>
