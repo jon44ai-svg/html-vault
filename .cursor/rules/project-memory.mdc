@@ -1,0 +1,16 @@
+---
+description: Maintain memory/ tasks, Q&A, and append-only worklog across sessions
+alwaysApply: true
+---
+
+# Project memory
+
+Before continuing multi-step work, read `memory/TASKS.md` (and skim latest `memory/WORKLOG.md` / `memory/QA.md` when resuming).
+
+## Maintain
+
+1. **New user ask → new task** in `TASKS.md` with `Added by`, `Added at` (ISO local offset), `Aim` (how we plan to fulfill it), and **subtasks** before doing substantial work.
+2. **Subtasks** stay checkable; update status (`todo` / `doing` / `blocked` / `done` / `dropped`) on the parent task.
+3. **Q&A** — append to `memory/QA.md` when a decision, clarification, or preference is settled. Never edit old entries; add a follow-up instead.
+4. **Worklog** — append to `memory/WORKLOG.md` with timestamp + short notes after meaningful progress (commits, blockers, gate results, interruptions). Append-only.
+5. Do not dump implementation detail into `CONTEXT.md`; domain language stays there. Process/history stays in `memory/`.

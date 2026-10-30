@@ -1,0 +1,13 @@
+# HTML Vault — agent rules
+
+## Memory
+
+- Keep `memory/TASKS.md`, `memory/QA.md`, and `memory/WORKLOG.md` current (see `.cursor/rules/project-memory.mdc`).
+
+## Dependencies
+
+- Install gate (order is fixed):
+  1. State briefly what each new package is for.
+  2. Resolve with **lockfile only** (`pnpm install --lockfile-only` and/or `pnpm add --lockfile-only …`) — no `node_modules` yet.
+  3. Run **`pnpm audit`** and present the full output.
+  4. Install into `node_modules` (`pnpm install`) **only if** the audit reports **no vulnerabilities**. If there are vulns, stop and report; do not install.
