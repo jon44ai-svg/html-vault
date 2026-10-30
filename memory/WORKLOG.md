@@ -108,3 +108,7 @@ Newest entries at the **bottom**. Format:
 - `pnpm build` OK: dist/sw.js + manifest.webmanifest
 - Next: Vercel deploy/link; then Bundle/JSX. Still need user OK to delete legacy/
 
+
+## 2026-10-31T00:30+02:00 — Vercel deploy blocked on team auth
+- MCP get_auth_user OK; list_projects 403 — need authorize_team_access for team_qsPbAWYLrRYwR3vHjdVzBewr
+- PWA build green on feat/t3-pwa-vercel; awaiting user approve + then create project/deploy
