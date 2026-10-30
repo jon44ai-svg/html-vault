@@ -3,7 +3,10 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import * as bootstrap from 'bootstrap'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
+import { registerSW } from 'virtual:pwa-register'
 import './style.css'
+
+registerSW({ immediate: true })
 
 const KEY = 'htmlvault.v1';
 const $ = (selector, root = document) => root.querySelector(selector);

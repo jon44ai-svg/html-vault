@@ -19,6 +19,10 @@ pnpm dev
 
 Do not open the app as `file://` — use `pnpm dev` or `pnpm preview` (or a static host) so modules and storage behave correctly.
 
+## PWA / deploy
+
+The app is installable (Vite PWA + service worker). Deploy the static `dist/` output to **Vercel** (`vercel.json` SPA rewrites). Prefer HTTPS so Install / offline work on a phone.
+
 ## Data
 
 Vault state is stored in **`localStorage`** under the key **`htmlvault.v1`**. Same origin as before keeps existing Files. Domain language: see [`CONTEXT.md`](CONTEXT.md).
