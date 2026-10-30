@@ -23,6 +23,9 @@ importers:
       jszip:
         specifier: ^3.10.2
         version: 3.10.2
+      workbox-window:
+        specifier: ^7.4.1
+        version: 7.4.1
     devDependencies:
       vite:
         specifier: ^7.1.12

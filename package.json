@@ -16,6 +16,7 @@
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.2",
     "file-saver": "^2.0.5",
-    "jszip": "^3.10.2"
+    "jszip": "^3.10.2",
+    "workbox-window": "^7.4.1"
   }
 }
