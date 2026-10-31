@@ -38,9 +38,10 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Shell + hashed assets offline (React/transform cache comes with Bundle work).
+        // Shell + hashed assets offline (includes React/Sucrase chunks for JSX Preview).
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,webmanifest}'],
         navigateFallback: '/index.html',
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       },
       devOptions: {
         enabled: true,

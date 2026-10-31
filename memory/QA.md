@@ -130,3 +130,21 @@ Add new entries at the bottom. Do not edit prior answers; if something changes, 
 **A (agent):** `mcp/shell-log` is a uv project with `mcp>=2.3.0` (`MCPServer`); `.mcp.json` launches via `uv run`. Tools unchanged: `log_run` / `log_search` / `log_tail` / `log_list`.
 
 ---
+
+### 2026-10-31T22:43+02:00 — Handoff resume; Vercel CLI fixed
+
+**Q (user):** Next agent should read handoff + memory; finish Vercel deploy for `html-vault`, then Bundle/JSX. Vercel CLI is fixed.
+
+**A (agent):** Prod deploy Ready at https://html-vault-psi.vercel.app (project `html-vault` / jon44ai). Pinned `packageManager` to pnpm@11.9.0 for Vercel installs. Continuing Bundle wiring on `feat/t3-bundle`.
+
+### 2026-10-31T22:43+02:00 — Legacy already gone (stale T1 subtask)
+
+**Follow-up:** Handoff notes T1 “ask before delete legacy” is stale — `legacy/` removed in `baadde3`. TASKS/AGENTS updated accordingly.
+
+### 2026-10-31T22:46+02:00 — pnpm audit overrides
+
+**Q (user):** Let pnpm decide overrides by itself (don’t hand-write them). Prefer plain `pnpm` (no `bash -lc` / full pnpm path / redundant `cd`).
+
+**A (agent):** Use `pnpm audit --fix override` (pnpm 11 requires `override`|`update`, not bare `--fix`). It wrote `overrides` + `minimumReleaseAgeExclude` into `pnpm-workspace.yaml` for glob/minimatch. Lockfile-only → audit exit 0 (only ignored deepmerge) → `pnpm install` OK; react / react-dom / sucrase in node_modules.
+
+---

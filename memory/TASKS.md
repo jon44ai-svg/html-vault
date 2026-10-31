@@ -19,7 +19,7 @@ Status: `todo` | `doing` | `blocked` | `done` | `dropped`
 
 - [x] Scaffold, UI shell, behavior port, docs
 - [x] Manual smoke passed (2026-10-31)
-- [ ] Ask before deleting `legacy/` (still pending user OK)
+- [x] `legacy/` removed (`baadde3`, 2026-10-31)
 
 ---
 
@@ -74,6 +74,25 @@ Status: `todo` | `doing` | `blocked` | `done` | `dropped`
 
 ---
 
+## T5 — Resume: finish Vercel deploy then Bundle/JSX
+
+| Field | Value |
+|---|---|
+| Status | `doing` |
+| Added by | user (handoff `/tmp/html-vault-handoff.md`; CLI fixed) |
+| Added at | 2026-10-31T22:39+02:00 |
+| Aim | Link + prod-deploy PWA on project `html-vault` (jon44ai); then continue T3 Bundle/JSX on `feat/t3-bundle`. |
+
+### Subtasks
+
+- [x] Restore correct `.vercel` link; redeploy after empty-upload ERROR
+- [x] Confirm production URL / Ready (`https://html-vault-psi.vercel.app`)
+- [x] Wire thin `main.js` + index DOM to existing Bundle modules; install react/sucrase
+- [ ] Phone install smoke (manual)
+
+---
+
 ## Backlog
 
 _None._
+

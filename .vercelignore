@@ -1,0 +1,11 @@
+.codegraph/
+.claude/
+memory/logs/
+mcp/shell-log/.venv/
+mcp/**/__pycache__/
+__pycache__/
+node_modules/
+dist/
+.git/
+*.log
+.vite/
