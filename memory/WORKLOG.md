@@ -97,3 +97,39 @@ Newest entries at the **bottom**. Format:
 - T1 left: manual smoke + legacy delete ask
 - T3 not started until T1 closed
 
+
+## 2026-10-31T00:26+02:00 — shell-log MCP on official SDK
+- Replaced hand-rolled stdio with `mcp` 2.x `MCPServer` via uv
+- Smoke: log_run/search OK; reload Cursor MCP to pick up server
+
+## 2026-10-31T00:29+02:00 — Commits + PWA build green
+
+- Branch `feat/t3-pwa-vercel`: patch, PWA, MCP, docs commits; then workbox-window fix
+- `pnpm build` OK: dist/sw.js + manifest.webmanifest
+- Next: Vercel deploy/link; then Bundle/JSX. Still need user OK to delete legacy/
+
+
+## 2026-10-31T00:30+02:00 — Vercel deploy blocked on team auth
+- MCP get_auth_user OK; list_projects 403 — need authorize_team_access for team_qsPbAWYLrRYwR3vHjdVzBewr
+- PWA build green on feat/t3-pwa-vercel; awaiting user approve + then create project/deploy
+
+## 2026-10-31T22:43+02:00 — Resume handoff; prod deploy Ready
+- User: read `/tmp/html-vault-handoff.md`; Vercel CLI fixed; priority deploy then Bundle/JSX
+- Restored `.vercel` link to jon44ai project `prj_YmCvkLfJcSD0cz4kqkrNC58EZwFN` (wrong local link pointed at unauthorized team)
+- Prior ERROR: empty upload (0 files) then `ERR_PNPM_LOCKFILE_CONFIG_MISMATCH` (Vercel pnpm 10 vs local 11 + workspace patchedDependencies)
+- Fix: `packageManager: pnpm@11.9.0` in package.json
+- Prod Ready: https://html-vault-psi.vercel.app (alias); inspect `dpl_39XwaijRkNHdLHTLBZRjKjmY5VRW`; index/manifest/sw HTTP 200
+- Branch `feat/t3-bundle` has untracked Phase 1/2 modules; monolith `main.js` still live — next: wire thin main + DOM + react/sucrase
+
+## 2026-10-31T22:46+02:00 — JSX deps via install gate
+- Purpose: `react`/`react-dom` (Preview iframe runtime); `sucrase` (JSX/TSX transform)
+- Lockfile-only add; audit had 2 moderate (glob/minimatch via workbox-build)
+- User: `pnpm audit --fix override` (not hand overrides); plain `pnpm`
+- Audit clean (1 low ignored); `pnpm install` landed react 19.3.1, react-dom 19.3.1, sucrase 3.35.1
+- Next: thin `main.js` + Bundle/Kind DOM hooks
+
+## 2026-10-31T22:50+02:00 — Bundle modules wired + redeployed
+- Thin `main.js` binds modules; index: Files|Bundles, Kind miss modal, dlBundle, wider Import accept
+- `pnpm build` green; prod Ready again at https://html-vault-psi.vercel.app (`dpl_CRYitmtMN4izsTVqPSTyLAZsMZQC`)
+- Uncommitted: modules, packageManager pin, audit overrides, Bundle wiring
+- Pending: phone A2HS smoke; user commit

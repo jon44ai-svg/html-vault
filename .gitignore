@@ -19,3 +19,6 @@ pnpm-debug.log*
 
 # Local tooling
 .codegraph/
+mcp/shell-log/.venv/
+mcp/**/__pycache__/
+__pycache__/

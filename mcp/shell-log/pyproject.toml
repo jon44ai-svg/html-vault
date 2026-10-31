@@ -1,0 +1,19 @@
+[project]
+name = "shell-log-mcp"
+version = "0.1.0"
+description = "MCP server: append shell output to logs and search them"
+requires-python = ">=3.12"
+dependencies = [
+    "mcp>=2.3.0",
+]
+
+[project.scripts]
+shell-log-mcp = "server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+only-include = ["server.py"]

@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#0d6efd">
+  <meta name="description" content="Local offline multi-file HTML workspace">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HTML Vault">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/pwa-192.png">
   <title>HTML Vault — Manage HTML files</title>
 </head>
 <body>
@@ -22,6 +28,7 @@
       </button>
       <ul class="dropdown-menu dropdown-menu-end shadow">
         <li><a class="dropdown-item" href="#" id="dlCurrent">Download current file</a></li>
+        <li><a class="dropdown-item" href="#" id="dlBundle">Export active Bundle (.zip)</a></li>
         <li><a class="dropdown-item" href="#" id="dlZip">Export all files and history (.zip)</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="#" id="toggleTheme">Toggle dark mode</a></li>
@@ -33,27 +40,39 @@
 
 <div class="offcanvas offcanvas-start" tabindex="-1" id="fileCanvas">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title"><i class="bi bi-folder2"></i> Files</h5>
+    <h5 class="offcanvas-title"><i class="bi bi-folder2"></i> Vault</h5>
     <button class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body d-flex flex-column">
+    <div class="btn-group w-100 mb-2" role="group" aria-label="List mode" data-list-mode-root>
+      <button type="button" class="btn btn-sm btn-primary" data-list-mode="files">Files</button>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-list-mode="bundles">Bundles</button>
+    </div>
     <div class="input-group mb-2">
       <span class="input-group-text"><i class="bi bi-search"></i></span>
       <input id="searchMobile" class="form-control" placeholder="Filter files" autocomplete="off">
     </div>
+    <div id="bundleFilterCanvas"></div>
+    <button id="btnNewBundle" class="btn btn-outline-primary w-100 mb-2" data-bundles-only><i class="bi bi-collection"></i> New Bundle</button>
     <div id="fileListCanvas" class="file-list"></div>
   </div>
 </div>
 
-<input id="importInput" type="file" accept=".html,.htm,.xhtml,.txt,.zip,text/html,text/plain,application/zip" multiple hidden>
+<input id="importInput" type="file" accept=".html,.htm,.xhtml,.txt,.jsx,.tsx,.css,.js,.mjs,.cjs,.json,.png,.jpg,.jpeg,.gif,.webp,.svg,.ico,.zip,text/html,text/plain,application/zip,image/*" multiple hidden>
 
 <main class="app-main show-edit">
   <aside class="sidebar">
+    <div class="btn-group w-100 mb-2" role="group" aria-label="List mode" data-list-mode-root>
+      <button type="button" class="btn btn-sm btn-primary" data-list-mode="files">Files</button>
+      <button type="button" class="btn btn-sm btn-outline-primary" data-list-mode="bundles">Bundles</button>
+    </div>
     <div class="input-group mb-2">
       <span class="input-group-text"><i class="bi bi-search"></i></span>
       <input id="searchDesktop" class="form-control" placeholder="Filter files" autocomplete="off">
     </div>
-    <button id="btnNew2" class="btn btn-primary w-100 mb-2"><i class="bi bi-file-earmark-plus"></i> New file</button>
+    <div id="bundleFilterDesktop"></div>
+    <button id="btnNew2" class="btn btn-primary w-100 mb-2" data-files-only><i class="bi bi-file-earmark-plus"></i> New file</button>
+    <button id="btnNewBundle2" class="btn btn-outline-primary w-100 mb-2 d-none" data-bundles-only><i class="bi bi-collection"></i> New Bundle</button>
     <div id="fileListDesktop" class="file-list"></div>
   </aside>
 
@@ -152,15 +171,44 @@
   </div></div>
 </div>
 
+<div class="modal fade" id="kindMissModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title" id="kindMissTitle">Choose File Kind</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <p id="kindMissReason" class="text-secondary small"></p>
+      <div class="mb-3">
+        <label class="form-label" for="kindMissKind">Kind</label>
+        <select id="kindMissKind" class="form-select">
+          <option value="html">HTML</option>
+          <option value="jsx">JSX / TSX</option>
+          <option value="css">CSS</option>
+          <option value="js">JavaScript</option>
+          <option value="json">JSON</option>
+          <option value="image">Image</option>
+        </select>
+      </div>
+      <div class="mb-3 d-none" id="kindMissEntryWrap">
+        <label class="form-label" for="kindMissEntry">Bundle Entry</label>
+        <select id="kindMissEntry" class="form-select"></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      <button class="btn btn-primary" id="kindMissOk">Save</button>
+    </div>
+  </div></div>
+</div>
+
 <div class="modal fade" id="aboutModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable"><div class="modal-content">
     <div class="modal-header"><h5 class="modal-title">About HTML Vault</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
     <div class="modal-body">
-      <p>HTML Vault stores files in this browser’s local storage. Data stays on this device unless you export or share it.</p>
+      <p>HTML Vault stores Files and Bundles in this browser’s local storage. Data stays on this device unless you export or share it.</p>
       <ul>
-        <li>Import HTML/text files or a ZIP archive. Export one file or a ZIP backup with version history.</li>
+        <li>Import HTML/JSX/CSS/JS/JSON/text, images, or a ZIP. Multi-file project ZIPs become Bundles. Export one File, the active Bundle, or a full ZIP with history.</li>
+        <li>Image caps: 512 KiB per image; 2 MiB total images per Bundle. Oversized imports are refused with a toast.</li>
         <li>Changes auto-save. Use Checkpoint to make a labeled history snapshot.</li>
-        <li>Compile checks common HTML issues and runs the source in a sandboxed preview.</li>
+        <li>Compile validates HTML or transforms JSX/TSX and runs it in a sandboxed Preview.</li>
         <li>Use Copy logs to copy preview console messages and errors for debugging.</li>
         <li>Use the Insert ▼ button (or Ctrl/⌘+Shift+V in the editor) to insert clipboard content at the cursor, append it to the end, replace the selection, or split multiple HTML documents from the clipboard into separate files.</li>
         <li>Browser storage has limited capacity. Export backups regularly.</li>

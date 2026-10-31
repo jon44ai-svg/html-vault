@@ -106,3 +106,45 @@ Add new entries at the bottom. Do not edit prior answers; if something changes, 
 
 **Q18** → **A**: **shared understanding frozen** (summary in prior agent message).
 
+
+### 2026-10-31T00:08+02:00 — Smoke + branch workflow
+
+**Q (user):** Smoke passed; continue. For the future, don’t wait for manual smoke — work on a different branch.
+
+**A (agent):** Recorded in `.cursorrules`. T1 smoke marked passed; continue T3 on branch `feat/t3-pwa-vercel` (PWA + Vercel first). Legacy delete still needs explicit user OK.
+
+---
+
+### 2026-10-31T00:12+02:00 — Log-then-grep
+
+**Q (user):** Instead of grepping command output, put it in a log file and grep that so output isn’t discarded.
+
+**A (agent):** Added to `.cursorrules` workflow.
+
+---
+
+### 2026-10-31T00:26+02:00 — shell-log MCP via uv
+
+**Q (user):** Switch shell-log MCP to official `mcp` via uv (not stdlib-only).
+
+**A (agent):** `mcp/shell-log` is a uv project with `mcp>=2.3.0` (`MCPServer`); `.mcp.json` launches via `uv run`. Tools unchanged: `log_run` / `log_search` / `log_tail` / `log_list`.
+
+---
+
+### 2026-10-31T22:43+02:00 — Handoff resume; Vercel CLI fixed
+
+**Q (user):** Next agent should read handoff + memory; finish Vercel deploy for `html-vault`, then Bundle/JSX. Vercel CLI is fixed.
+
+**A (agent):** Prod deploy Ready at https://html-vault-psi.vercel.app (project `html-vault` / jon44ai). Pinned `packageManager` to pnpm@11.9.0 for Vercel installs. Continuing Bundle wiring on `feat/t3-bundle`.
+
+### 2026-10-31T22:43+02:00 — Legacy already gone (stale T1 subtask)
+
+**Follow-up:** Handoff notes T1 “ask before delete legacy” is stale — `legacy/` removed in `baadde3`. TASKS/AGENTS updated accordingly.
+
+### 2026-10-31T22:46+02:00 — pnpm audit overrides
+
+**Q (user):** Let pnpm decide overrides by itself (don’t hand-write them). Prefer plain `pnpm` (no `bash -lc` / full pnpm path / redundant `cd`).
+
+**A (agent):** Use `pnpm audit --fix override` (pnpm 11 requires `override`|`update`, not bare `--fix`). It wrote `overrides` + `minimumReleaseAgeExclude` into `pnpm-workspace.yaml` for glob/minimatch. Lockfile-only → audit exit 0 (only ignored deepmerge) → `pnpm install` OK; react / react-dom / sucrase in node_modules.
+
+---

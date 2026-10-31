@@ -4,10 +4,15 @@
 
 - Keep `memory/TASKS.md`, `memory/QA.md`, and `memory/WORKLOG.md` current (see `.cursor/rules/project-memory.mdc`).
 
+## Workflow
+
+- Do not block follow-on work waiting for the user to finish manual smoke. Put the next task on a **separate git branch** and continue; merge/rebase after smoke (or when asked).
+- When you need to search command output: use the **shell-log** MCP (`log_run` then `log_search` / `log_tail`). Do not pipe the live command into grep (that discards the rest of the output). Logs live under `memory/logs/`.
+
 ## Dependencies
 
 - Install gate (order is fixed):
   1. State briefly what each new package is for.
   2. Resolve with **lockfile only** (`pnpm install --lockfile-only` and/or `pnpm add --lockfile-only …`) — no `node_modules` yet.
   3. Run **`pnpm audit`** and present the full output.
-  4. Install into `node_modules` (`pnpm install`) **only if** the audit reports **no vulnerabilities**. If there are vulns, stop and report; do not install.
+  4. Install into `node_modules` (`pnpm install`) **only if** `pnpm audit` exits 0 with **no unignored** vulnerabilities. If blocked only by a vuln with **no upstream fix**, you may maintain a `patchedDependencies` patch and a documented `auditConfig.ignoreGhsas` entry (see `patches/`); do not ignore without a patch or user OK.
